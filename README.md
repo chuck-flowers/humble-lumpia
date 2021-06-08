@@ -18,6 +18,12 @@ sudo make uninstall
 
 The following are a full list of the commands that can be run
 
+### Update the Local Cache
+
+```shell
+humble-lumpia update
+```
+
 ### List Versions Available for Install
 
 ```shell
