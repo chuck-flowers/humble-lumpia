@@ -5,7 +5,7 @@ RELEASES_URL='https://api.github.com/repos/GloriousEggroll/proton-ge-custom/rele
 STEAM_COMPAT_TOOLS="$HOME/.steam/root/compatibilitytools.d";
 
 getAllReleasesData() {
-    curl -s "$RELEASES_URL" | jq '[.[] | { name, published_at, url: .assets[] | select(.content_type == "application/gzip") | .url }] | sort_by(.published_at)'
+    curl -s "$RELEASES_URL" | jq '[.[] | { name: .tag_name, published_at, url: .assets[] | select(.content_type == "application/gzip") | .url }] | sort_by(.published_at)'
 }
 
 getReleaseData() {
