@@ -7,9 +7,13 @@ VAR_DIR="/var/local/humble-lumpia";
 RELEASES_FILE="$VAR_DIR/releases";
 
 updateReleaseData() {
-    mkdir -p $VAR_DIR;
-    touch $RELEASES_FILE;
-    curl -s "$RELEASES_URL" > "$RELEASES_FILE";
+    if test $(id -u) -eq 0; then
+        mkdir -p $VAR_DIR;
+        touch $RELEASES_FILE;
+        curl -s "$RELEASES_URL" > "$RELEASES_FILE";
+    else
+        echo "'humble-lumpia update' must be executed as root";
+    fi;
 }
 
 getAllReleasesData() {
