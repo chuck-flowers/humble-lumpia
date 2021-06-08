@@ -1,17 +1,44 @@
 #!/bin/env sh
+TMP_PATH='/tmp/humble-lumpia';
 RELEASES_URL='https://api.github.com/repos/GloriousEggroll/proton-ge-custom/releases';
 
+getAllReleasesData() {
+    curl -s "$RELEASES_URL" | jq '[.[] | { name, published_at, url: .assets[] | select(.content_type == "application/gzip") | .url }] | sort_by(.published_at)'
+}
+
 getReleaseData() {
-    curl -s "$RELEASES_URL" | jq '[.[] | { name, published_at, tarball_url }]'
+    getAllReleasesData | jq ".[] | select(.name == \"$1\")"
 }
 
 lsReleases() {
-    getReleaseData | jq -r '.[].name | select(. != "")' | sort;
+    getAllReleasesData | jq -r '.[].name | select(. != "")';
+}
+
+downloadRelease() {
+    echo "downloadRelease($1, $2)";
+    curl -sL "$1" -o "$2";
+}
+
+extractIntoSteam() {
+    mkdir -p ~/.steam/root/compatibilitytools.d && tar -xf "$1" -C ~/.steam/root/compatibilitytools.d/
+}
+
+installRelease() {
+    RELEASE_DATA=$(getReleaseData "$1");
+    ASSET_URL=$(echo "$RELEASE_DATA" | jq -r '.url');
+    DOWNLOAD_URL=$(curl -sL "$ASSET_URL" | jq -r '.browser_download_url');
+    DOWNLOAD_NAME=$(echo "$RELEASE_DATA" | jq -r '.name');
+    DOWNLOAD_PATH="$TMP_PATH/$DOWNLOAD_NAME";
+
+    mkdir -p "$TMP_PATH" && downloadRelease "$DOWNLOAD_URL" "$DOWNLOAD_PATH" && extractIntoSteam "$DOWNLOAD_PATH";
 }
 
 case $1 in
     "ls")
         lsReleases
+    ;;
+    "install")
+        installRelease "$2"
     ;;
     *)
         echo "Unrecognized command '$1'";
