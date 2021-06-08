@@ -1,13 +1,19 @@
 #!/bin/env sh
+
 TMP_PATH='/tmp/humble-lumpia';
 RELEASES_URL='https://api.github.com/repos/GloriousEggroll/proton-ge-custom/releases';
+STEAM_COMPAT_TOOLS="$HOME/.steam/root/compatibilitytools.d";
 
 getAllReleasesData() {
     curl -s "$RELEASES_URL" | jq '[.[] | { name, published_at, url: .assets[] | select(.content_type == "application/gzip") | .url }] | sort_by(.published_at)'
 }
 
 getReleaseData() {
-    getAllReleasesData | jq ".[] | select(.name == \"$1\")"
+    if test "$1" = "latest"; then
+        getAllReleasesData | jq '. | last';
+    else
+        getAllReleasesData | jq ".[] | select(.name == \"$1\")"
+    fi;
 }
 
 lsReleases() {
@@ -15,12 +21,15 @@ lsReleases() {
 }
 
 downloadRelease() {
-    echo "downloadRelease($1, $2)";
+    printf "Downloading... ";
     curl -sL "$1" -o "$2";
+    echo "Complete!";
 }
 
 extractIntoSteam() {
-    mkdir -p ~/.steam/root/compatibilitytools.d && tar -xf "$1" -C ~/.steam/root/compatibilitytools.d/
+    printf "Extracting... ";
+    mkdir -p "$STEAM_COMPAT_TOOLS" && tar -xf "$1" -C ~/.steam/root/compatibilitytools.d/
+    echo "Complete!";
 }
 
 installRelease() {
@@ -33,12 +42,23 @@ installRelease() {
     mkdir -p "$TMP_PATH" && downloadRelease "$DOWNLOAD_URL" "$DOWNLOAD_PATH" && extractIntoSteam "$DOWNLOAD_PATH";
 }
 
+removeRelease() {
+    if test -e "$STEAM_COMPAT_TOOLS/$1"; then
+        rm -rf "${STEAM_COMPAT_TOOLS:?}/$1";
+    else
+        echo "The version '$1' is not installed";
+    fi;
+}
+
 case $1 in
     "ls")
         lsReleases
     ;;
     "install")
         installRelease "$2"
+    ;;
+    "rm")
+        removeRelease "$2"
     ;;
     *)
         echo "Unrecognized command '$1'";
