@@ -20,6 +20,10 @@ lsReleases() {
     getAllReleasesData | jq -r '.[].name | select(. != "")';
 }
 
+lsInstalled() {
+    find "$STEAM_COMPAT_TOOLS"/* -maxdepth 0 -printf '%f\n';
+}
+
 downloadRelease() {
     printf "Downloading... ";
     curl -sL "$1" -o "$2";
@@ -52,7 +56,11 @@ removeRelease() {
 
 case $1 in
     "ls")
-        lsReleases
+        if test "$2" = "installed"; then
+            lsInstalled
+        else
+            lsReleases
+        fi;
     ;;
     "install")
         installRelease "$2"
