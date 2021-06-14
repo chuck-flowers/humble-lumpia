@@ -6,7 +6,7 @@ STEAM_COMPAT_TOOLS="$HOME/.steam/root/compatibilitytools.d";
 RELEASES_FILE="/var/local/humble-lumpia/releases";
 
 updateReleaseData() {
-    if test $(id -u) -eq 0; then
+    if test "$(id -u)" -eq 0; then
         touch $RELEASES_FILE;
         curl -s "$RELEASES_URL" > "$RELEASES_FILE";
     else
