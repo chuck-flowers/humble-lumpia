@@ -33,7 +33,7 @@ humble-lumpia ls
 ### List Installed Versions
 
 ```shell
-humble-lumpia ls installed
+humble-lumpia ls --installed
 ```
 
 ### Install Latest Build
