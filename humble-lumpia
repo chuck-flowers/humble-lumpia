@@ -69,6 +69,25 @@ removeRelease() {
     fi;
 }
 
+showHelp() {
+    echo "humble-lumpia - CLI for installing versions of Glorious Eggroll's custom Proton";
+    echo "";
+    echo "USAGE:"
+    echo "";
+    echo "humble-lumpia update";
+    echo "humble-lumpia ls [--installed]"
+    echo "humble-lumpia install <VERSION>";
+    echo "humble-lumpia rm <VERSION>";
+    echo "";
+    echo "COMMANDS:";
+    echo "";
+    echo "update   Updates the list of available versions to install";
+    echo "ls       Lists the versions that are available to install, or the currently installed versions if the '--installed' flag is provided.";
+    echo "install  Installs a version of proton-custom-ge where VERSION is a value reported by humble-lumpia ls or 'latest'";
+    echo "rm       Removes a currently installed version where VERSION is a value reported by ls --installed";
+    echo "help     Shows this help information";
+}
+
 case $1 in
     "update")
         updateReleaseData;
@@ -85,6 +104,9 @@ case $1 in
     ;;
     "rm")
         removeRelease "$2"
+    ;;
+    "help"|"--help")
+        showHelp;
     ;;
     *)
         echo "Unrecognized command '$1'";
