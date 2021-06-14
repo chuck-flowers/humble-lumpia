@@ -93,7 +93,7 @@ case $1 in
         updateReleaseData;
     ;;
     "ls")
-        if test "$2" = "installed"; then
+        if test "$2" = "--installed"; then
             lsInstalled
         else
             lsReleases
