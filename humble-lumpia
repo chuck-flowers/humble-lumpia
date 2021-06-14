@@ -19,7 +19,7 @@ getAllReleasesData() {
         jq '[.[] | { name: .tag_name, published_at, url: .assets[] | select(.content_type == "application/gzip") | .url }] | sort_by(.published_at)' \
             < "$RELEASES_FILE";
     else
-        echo "";
+        echo "\033[31mERROR:\033[0m No local cache of Proton version found. Run the 'humble-lumpia update' command." > /dev/stderr;
     fi;
 }
 
