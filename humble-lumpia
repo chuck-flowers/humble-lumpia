@@ -3,24 +3,30 @@
 TMP_PATH='/tmp/humble-lumpia';
 RELEASES_URL='https://api.github.com/repos/GloriousEggroll/proton-ge-custom/releases';
 STEAM_COMPAT_TOOLS="$HOME/.steam/root/compatibilitytools.d";
-RELEASES_FILE="/var/local/humble-lumpia/releases";
+
+if [ -z "$XDG_CACHE_HOME" ]; then
+	RELEASE_CACHEDIR="$HOME/.cache/humble-lumpia";
+else
+	RELEASE_CACHEDIR="$XDG_CACHE_HOME/humble-lumpia";
+fi
+
+RELEASES_FILE="$RELEASE_CACHEDIR/releases";
 
 updateReleaseData() {
-    if test "$(id -u)" -eq 0; then
-        touch $RELEASES_FILE;
-        curl -s "$RELEASES_URL" > "$RELEASES_FILE";
-    else
-        echo "'humble-lumpia update' must be executed as root";
-    fi;
+    mkdir -p "$RELEASE_CACHEDIR" 2>/dev/null
+    touch "$RELEASES_FILE";
+    curl -s "$RELEASES_URL" > "$RELEASES_FILE";
 }
 
 getAllReleasesData() {
-    if test -e $RELEASES_FILE; then
-        jq '[.[] | { name: .tag_name, published_at, url: .assets[] | select(.content_type == "application/gzip") | .url }] | sort_by(.published_at)' \
-            < "$RELEASES_FILE";
-    else
-        echo "\033[31mERROR:\033[0m No local cache of Proton version found. Run the 'humble-lumpia update' command." > /dev/stderr;
-    fi;
+    if test ! -e "$RELEASES_FILE"; then
+        updateReleaseData
+    fi
+
+    if test -e "$RELEASES_FILE"; then
+    jq '[.[] | { name: .tag_name, published_at, url: .assets[] | select(.content_type == "application/gzip") | .url }] | sort_by(.published_at)' \
+        < "$RELEASES_FILE";
+    fi
 }
 
 getReleaseData() {
@@ -110,5 +116,6 @@ case $1 in
     ;;
     *)
         echo "Unrecognized command '$1'";
+        showHelp;
     ;;
 esac
