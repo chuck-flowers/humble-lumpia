@@ -3,7 +3,13 @@
 TMP_PATH='/tmp/humble-lumpia';
 RELEASES_URL='https://api.github.com/repos/GloriousEggroll/proton-ge-custom/releases';
 STEAM_COMPAT_TOOLS="$HOME/.steam/root/compatibilitytools.d";
-RELEASE_CACHEDIR="$HOME/.cache/humble-lumpia";
+
+if [ -z "$XDG_CACHE_HOME" ]; then
+	RELEASE_CACHEDIR="$HOME/.cache/humble-lumpia";
+else
+	RELEASE_CACHEDIR="$XDG_CACHE_HOME/humble-lumpia";
+fi
+
 RELEASES_FILE="$RELEASE_CACHEDIR/releases";
 
 updateReleaseData() {
