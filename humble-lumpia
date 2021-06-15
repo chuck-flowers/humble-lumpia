@@ -3,12 +3,11 @@
 TMP_PATH='/tmp/humble-lumpia';
 RELEASES_URL='https://api.github.com/repos/GloriousEggroll/proton-ge-custom/releases';
 STEAM_COMPAT_TOOLS="$HOME/.steam/root/compatibilitytools.d";
-
 RELEASE_CACHEDIR="$HOME/.cache/humble-lumpia";
 RELEASES_FILE="$RELEASE_CACHEDIR/releases";
 
 updateReleaseData() {
-	mkdir -p "$RELEASE_CACHEDIR" 2>/dev/null
+    mkdir -p "$RELEASE_CACHEDIR" 2>/dev/null
     touch "$RELEASES_FILE";
     curl -s "$RELEASES_URL" > "$RELEASES_FILE";
 }
@@ -17,8 +16,11 @@ getAllReleasesData() {
     if test ! -e "$RELEASES_FILE"; then
         updateReleaseData
     fi
+
+    if test -e "$RELEASES_FILE"; then
     jq '[.[] | { name: .tag_name, published_at, url: .assets[] | select(.content_type == "application/gzip") | .url }] | sort_by(.published_at)' \
         < "$RELEASES_FILE";
+    fi
 }
 
 getReleaseData() {
