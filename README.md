@@ -6,6 +6,11 @@ A 'package manager' for Glorious Eggroll's custom proton build.
 
 There are currently a couple of ways to install `humble-lumpia`.
 
+**NOTE:** Installing `humble-lumpia` and its dependencies is not sufficient to 
+run the versions of `proton-ge-custom` that `humble-lumpia` will download. Be 
+sure to reference the [README](https://github.com/GloriousEggroll/proton-ge-custom/)
+in `proton-ge-custom` to determine what other dependencies your system requires.
+
 ### AUR Package Installation
 
 If you are running **Arch Linux**, you can also download and install the 
