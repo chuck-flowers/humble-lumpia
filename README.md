@@ -4,6 +4,44 @@ A 'package manager' for Glorious Eggroll's custom proton build.
 
 ## Installation
 
+There are currently a couple of ways to install `humble-lumpia`.
+
+**NOTE:** Installing `humble-lumpia` and its dependencies is not sufficient to 
+run the versions of `proton-ge-custom` that `humble-lumpia` will download. Be 
+sure to reference the [README](https://github.com/GloriousEggroll/proton-ge-custom/)
+in `proton-ge-custom` to determine what other dependencies your system requires.
+
+### From AUR
+
+If you are running **Arch Linux**, you can also download and install the 
+package maintained by [NINNiT](https://github.com/NINNiT) from the [AUR](https://aur.archlinux.org/packages/humble-lumpia-git/). 
+
+If you are already using `yay` as an AUR helper, then you can
+run the following command to install humble-lumpia.
+
+```shell
+yay -S humble-lumpia-git
+```
+
+If you are unfamiliar with installing packages from the AUR, you can 
+review the process [here](https://wiki.archlinux.org/title/Arch_User_Repository#Installing_and_upgrading_packages)
+in the Arch Wiki. 
+
+### From Source
+
+It is also possible to install `humble-lumpia` from source.
+
+#### Build Dependencies
+
+* make
+
+#### Runtime Dependencies
+
+* curl
+* jq
+
+#### Install Command
+
 ```shell
 sudo make install
 ```
