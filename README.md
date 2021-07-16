@@ -11,13 +11,21 @@ run the versions of `proton-ge-custom` that `humble-lumpia` will download. Be
 sure to reference the [README](https://github.com/GloriousEggroll/proton-ge-custom/)
 in `proton-ge-custom` to determine what other dependencies your system requires.
 
-### AUR Package Installation
+### From AUR
 
 If you are running **Arch Linux**, you can also download and install the 
-package maintained by [NINNiT](https://github.com/NINNiT) from the AUR. 
+package maintained by [NINNiT](https://github.com/NINNiT) from the [AUR](https://aur.archlinux.org/packages/humble-lumpia-git/). 
+
+If you are already using `yay` as an AUR helper, then you can
+run the following command to install humble-lumpia.
+
+```shell
+yay -S humble-lumpia-git
+```
+
 If you are unfamiliar with installing packages from the AUR, you can 
 review the process [here](https://wiki.archlinux.org/title/Arch_User_Repository#Installing_and_upgrading_packages)
-in the Arch Wiki.
+in the Arch Wiki. 
 
 ### From Source
 
