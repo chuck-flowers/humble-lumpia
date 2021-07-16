@@ -29,14 +29,7 @@ in the Arch Wiki.
 
 ### From Source
 
-It is also possible to easily install the utility from source. If you wish to 
-do so, please ensure that you have the appropriate dependencies to 
-[build](#build-dependencies) and [run](#runtime-dependencies) the application 
-as mentioned below.
-
-```shell
-sudo make install
-```
+It is also possible to install `humble-lumpia` from source.
 
 #### Build Dependencies
 
@@ -46,6 +39,12 @@ sudo make install
 
 * curl
 * jq
+
+#### Install Command
+
+```shell
+sudo make install
+```
 
 ## Uninstallation
 
