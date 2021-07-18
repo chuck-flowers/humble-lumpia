@@ -1,0 +1,37 @@
+_humble_lumpia() {
+	_humble_lumpia_ls() {
+		local flags;
+		flags=('--installed');
+
+		COMPREPLY=($(compgen -W "${flags[*]}" "${COMP_WORDS[${COMP_CWORD}]}"));
+	}
+
+	_humble_lumpia_online_version() {
+		local availableVersions;
+		availableVersions=$(humble-lumpia ls);
+		COMPREPLY=($(compgen -W "$availableVersions" "${COMP_WORDS[${COMP_CWORD}]}"));
+	}
+
+	_humble_lumpia_installed_version() {
+		local installedVersions;
+		installedVersions=$(humble-lumpia ls --installed);
+		COMPREPLY=($(compgen -W "$installedVersions" "${COMP_WORDS[${COMP_CWORD}]}"));
+	}
+
+	# Completing command
+	if test $COMP_CWORD -eq 1; then
+		local commands;
+		commands=('update' 'ls' 'install' 'rm');
+		COMPREPLY=($(compgen -W "${commands[*]}" "${COMP_WORDS[${COMP_CWORD}]}"));
+	elif test $COMP_CWORD -eq 2; then
+		case "${COMP_WORDS[1]}" in
+			'ls')
+				_humble_lumpia_ls;;
+			'install')
+				_humble_lumpia_online_version;;
+			'rm')
+				_humble_lumpia_installed_version;;
+		esac
+	fi
+} && complete -F _humble_lumpia humble-lumpia
+
