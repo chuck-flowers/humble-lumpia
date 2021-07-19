@@ -33,6 +33,7 @@ It is also possible to install `humble-lumpia` from source.
 
 #### Build Dependencies
 
+* gzip
 * make
 
 #### Runtime Dependencies
