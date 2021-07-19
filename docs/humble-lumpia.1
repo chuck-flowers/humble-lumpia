@@ -1,0 +1,54 @@
+.TH humble-lumpia 1 "2021-07-16" "0.0.1"
+.SH NAME
+humble-lumpia \- A proton-ge-custom install manager
+
+.SH SYNOPSIS
+.\" Update command
+.B humble-lumpia update
+.br
+.\" Ls command
+.B humble-lumpia ls 
+[--installed]
+.br
+.\" Install command
+.B humble-lumpia install
+.I version
+.br
+.\" Rm command
+.B humble-lumpia rm
+.I version
+.br
+
+.SH DESCRIPTION
+.P
+.B humble-lumpia
+is a command line utility that is used to manage the versions of Glorious 
+Eggroll's custom version of proton. It does this by automating the downloading,
+extracting, and placement of files from the
+.B proton-ge-custom
+GitHub repository.
+
+.SH OPTIONS
+.TP
+.B --installed
+When used with the ls command it shows only the versions that are currently installed.
+
+.SH EXAMPLES
+.TP
+.B humble-lumpia update
+Updates the list of available versions by checking GitHub.
+.TP
+.B humble-lumpia ls
+Lists all versions of proton-ge-custom that humble-lumpia can install.
+.TP
+.B humble-lumpia install latest
+Installs the latest version of proton-ge-custom in Steam.
+.TP
+.BI "humble-lumpia install" \ 6.12-GE-1
+Installs a specified version of proton-ge-custom (e.g. 6.12-GE-1) in Steam.
+.TP
+.B humble-lumpia ls --installed
+Lists all versions of proton-ge-custom that are currently installed in Steam.
+.TP
+.BI "humble-lumpia rm" \ 6.12-GE-1
+Removes a specified version of proton-ge-custom from Steam.
