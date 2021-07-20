@@ -1,31 +1,32 @@
 #!/bin/env sh
 
-TMP_PATH='/tmp/humble-lumpia';
+# XDG polyfills
+test -z "$XDG_CACHE_HOME" && XDG_CACHE_HOME="$HOME/.cache";
+
+# URLs
 RELEASES_URL='https://api.github.com/repos/GloriousEggroll/proton-ge-custom/releases';
+
+# Directories
+HUMBLE_LUMPIA_CACHE_DIR="$XDG_CACHE_HOME/humble-lumpia";
+HUMBLE_LUMPIA_TMP_DIR="/tmp/humble-lumpia";
 STEAM_COMPAT_TOOLS="$HOME/.steam/root/compatibilitytools.d";
 
-if [ -z "$XDG_CACHE_HOME" ]; then
-	RELEASE_CACHEDIR="$HOME/.cache/humble-lumpia";
-else
-	RELEASE_CACHEDIR="$XDG_CACHE_HOME/humble-lumpia";
-fi
-
-RELEASES_FILE="$RELEASE_CACHEDIR/releases";
+# Files
+RELEASES_FILE="$HUMBLE_LUMPIA_CACHE_DIR/releases";
 
 updateReleaseData() {
-    mkdir -p "$RELEASE_CACHEDIR" 2>/dev/null
+    mkdir -p "$HUMBLE_LUMPIA_CACHE_DIR" 2>/dev/null
     touch "$RELEASES_FILE";
     curl -s "$RELEASES_URL" > "$RELEASES_FILE";
 }
 
 getAllReleasesData() {
-    if test ! -e "$RELEASES_FILE"; then
-        updateReleaseData
-    fi
+	# If there is no releases file, download it
+	test -e "$RELEASES_FILE" || updateReleaseData;
 
     if test -e "$RELEASES_FILE"; then
-    jq '[.[] | { name: .tag_name, published_at, url: .assets[] | select(.content_type == "application/gzip") | .url }] | sort_by(.published_at)' \
-        < "$RELEASES_FILE";
+		jq '[.[] | { name: .tag_name, published_at, url: .assets[] | select(.content_type == "application/gzip") | .url }] | sort_by(.published_at)' \
+			< "$RELEASES_FILE";
     fi
 }
 
@@ -53,7 +54,7 @@ downloadRelease() {
 
 extractIntoSteam() {
     printf "Extracting... ";
-    mkdir -p "$STEAM_COMPAT_TOOLS" && tar -xf "$1" -C ~/.steam/root/compatibilitytools.d/
+    mkdir -p "$STEAM_COMPAT_TOOLS" && tar -xf "$1" -C "$STEAM_COMPAT_TOOLS" 
     echo "Complete!";
 }
 
@@ -62,9 +63,11 @@ installRelease() {
     ASSET_URL=$(echo "$RELEASE_DATA" | jq -r '.url');
     DOWNLOAD_URL=$(curl -sL "$ASSET_URL" | jq -r '.browser_download_url');
     DOWNLOAD_NAME=$(echo "$RELEASE_DATA" | jq -r '.name');
-    DOWNLOAD_PATH="$TMP_PATH/$DOWNLOAD_NAME";
+    DOWNLOAD_PATH="$HUMBLE_LUMPIA_TMP_DIR/$DOWNLOAD_NAME";
 
-    mkdir -p "$TMP_PATH" && downloadRelease "$DOWNLOAD_URL" "$DOWNLOAD_PATH" && extractIntoSteam "$DOWNLOAD_PATH";
+    mkdir -p "$HUMBLE_LUMPIA_TMP_DIR" \
+		&& downloadRelease "$DOWNLOAD_URL" "$DOWNLOAD_PATH" \
+		&& extractIntoSteam "$DOWNLOAD_PATH";
 }
 
 removeRelease() {
