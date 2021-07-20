@@ -8,10 +8,12 @@ RELEASES_URL='https://api.github.com/repos/GloriousEggroll/proton-ge-custom/rele
 
 # Directories
 HUMBLE_LUMPIA_CACHE_DIR="$XDG_CACHE_HOME/humble-lumpia";
+HUMBLE_LUMPIA_SHARE_DIR="/usr/share/humble-lumpia";
 HUMBLE_LUMPIA_TMP_DIR="/tmp/humble-lumpia";
 STEAM_COMPAT_TOOLS="$HOME/.steam/root/compatibilitytools.d";
 
 # Files
+HELP_FILE="$HUMBLE_LUMPIA_SHARE_DIR/help"
 RELEASES_FILE="$HUMBLE_LUMPIA_CACHE_DIR/releases";
 
 updateReleaseData() {
@@ -79,22 +81,7 @@ removeRelease() {
 }
 
 showHelp() {
-    echo "humble-lumpia - CLI for installing versions of Glorious Eggroll's custom Proton";
-    echo "";
-    echo "USAGE:"
-    echo "";
-    echo "humble-lumpia update";
-    echo "humble-lumpia ls [--installed]"
-    echo "humble-lumpia install <VERSION>";
-    echo "humble-lumpia rm <VERSION>";
-    echo "";
-    echo "COMMANDS:";
-    echo "";
-    echo "update   Updates the list of available versions to install";
-    echo "ls       Lists the versions that are available to install, or the currently installed versions if the '--installed' flag is provided.";
-    echo "install  Installs a version of proton-custom-ge where VERSION is a value reported by humble-lumpia ls or 'latest'";
-    echo "rm       Removes a currently installed version where VERSION is a value reported by ls --installed";
-    echo "help     Shows this help information";
+    cat $HELP_FILE;
 }
 
 case $1 in

@@ -1,0 +1,16 @@
+humble-lumpia - CLI for installing versions of Glorious Eggroll's custom Proton
+
+USAGE:
+
+humble-lumpia update
+humble-lumpia ls [--installed]
+humble-lumpia install <VERSION>
+humble-lumpia rm <VERSION>
+
+COMMANDS:
+
+update  Updates the list of available versions to install
+ls      Lists the versions that are available to install, or the currently installed versions if the '--installed' flag is provided
+install Installs a version of proto-custom-ge where VERSION is a value reported by humble-lumpia ls or 'latest'
+rm      Removes a currently installed version where VERSION is a value reported by ls --installed
+help    Shows this help information
