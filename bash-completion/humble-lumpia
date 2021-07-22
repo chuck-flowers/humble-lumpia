@@ -3,7 +3,7 @@ _humble_lumpia() {
 		local flags;
 		flags=('--installed');
 
-		COMPREPLY=($(compgen -W "${flags[*]}" "${COMP_WORDS[${COMP_CWORD}]}"));
+		COMPREPLY=($(compgen -W "${flags[*]}" -- "${COMP_WORDS[${COMP_CWORD}]}"));
 	}
 
 	_humble_lumpia_online_version() {
