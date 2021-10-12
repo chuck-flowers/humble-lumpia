@@ -69,7 +69,8 @@ installRelease() {
 
     mkdir -p "$HUMBLE_LUMPIA_TMP_DIR" \
 		&& downloadRelease "$DOWNLOAD_URL" "$DOWNLOAD_PATH" \
-		&& extractIntoSteam "$DOWNLOAD_PATH";
+		&& extractIntoSteam "$DOWNLOAD_PATH" \
+		&& echo "Sucessfully installed '$DOWNLOAD_NAME'";
 }
 
 removeRelease() {
