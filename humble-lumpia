@@ -34,7 +34,7 @@ getAllReleasesData() {
 
 getReleaseData() {
     if test "$1" = "latest"; then
-        getAllReleasesData | jq '. | last';
+        updateReleaseData && getAllReleasesData | jq '. | last';
     else
         getAllReleasesData | jq ".[] | select(.name == \"$1\")"
     fi;
@@ -61,7 +61,16 @@ extractIntoSteam() {
 }
 
 installRelease() {
+	# Gets the specified release data, and refreshes release data if not found
     RELEASE_DATA=$(getReleaseData "$1");
+	if [[ -z "$RELEASE_DATA" ]]; then
+		updateReleaseData && RELEASE_DATA=$(getReleaseData "$1")
+		if [[ -z "$RELEASE_DATA" ]]; then
+			echo "The version '$1' could not be found" > /dev/stderr
+			exit 1
+		fi
+	fi
+
     ASSET_URL=$(echo "$RELEASE_DATA" | jq -r '.url');
     DOWNLOAD_URL=$(curl -sL "$ASSET_URL" | jq -r '.browser_download_url');
     DOWNLOAD_NAME=$(echo "$RELEASE_DATA" | jq -r '.name');
