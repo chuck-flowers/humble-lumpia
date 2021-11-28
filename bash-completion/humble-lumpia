@@ -10,7 +10,7 @@ _humble_lumpia() {
 
 	_humble_lumpia_online_version() {
 		local availableVersions;
-		availableVersions=$(humble-lumpia ls);
+		availableVersions="$(humble-lumpia ls) latest";
 		mapfile -t COMPREPLY < <(compgen -W "$availableVersions" "${COMP_WORDS[${COMP_CWORD}]}")
 	}
 
