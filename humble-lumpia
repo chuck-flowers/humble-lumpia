@@ -27,7 +27,7 @@ getAllReleasesData() {
 	test -e "$RELEASES_FILE" || updateReleaseData;
 
     if test -e "$RELEASES_FILE"; then
-		jq '[.[] | { name: .tag_name, published_at, url: .assets[] | select(.content_type == "application/gzip") | .url }] | sort_by(.published_at)' \
+		jq '[.[] | { name: .tag_name, published_at, url: .assets[] | select(.content_type == "application/gzip" or (.content_type=="binary/octet-stream") and (.name | test("\\.tar\\.gz"))) | .url }] | sort_by(.published_at)' \
 			< "$RELEASES_FILE";
     fi
 }
