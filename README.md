@@ -1,3 +1,5 @@
+
+
 # Humble Lumpia
 
 A 'package manager' for Glorious Eggroll's custom proton build.
@@ -55,7 +57,7 @@ sudo make uninstall
 
 ## Usage
 
-The following are a full list of the commands that can be run
+The following is a full list of the commands that can be run
 
 ### Update the Local Cache
 
